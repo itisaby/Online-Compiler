@@ -5,6 +5,8 @@ const port = 8000;
 
 const { generateFile } = require('./generateFile')
 const { executeCpp } = require('./executeCpp')
+const { executePy } = require('./executePy')
+const { executeJs } = require('./executeJs')
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -15,24 +17,33 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/run', async(req, res) => {
-    const {language="cpp", code} = req.body
-    if(code===undefined) {
+app.post('/run', async (req, res) => {
+    const { language = "cpp", code } = req.body
+    if (code === undefined) {
         return res.status(400).json({
             success: false,
             message: 'No code provided'
         })
     }
-    try{
+    try {
         //need to generate the c+= file with the content
         const filepath = await generateFile(language, code)
         //we need to run the file and send back the response
-        const output = await executeCpp(filepath)
+        let output;
+
+        if (language === 'cpp') {
+
+            output = await executeCpp(filepath)
+        } else if(language === 'py') {
+            output = await executePy(filepath)
+        }else{
+            output = await executeJs(filepath)
+        }
         return res.json({
             filepath,
             output
         })
-    } catch(err) {
+    } catch (err) {
         return res.status(500).json({
             success: false,
             message: err.message
