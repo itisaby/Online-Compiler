@@ -3,6 +3,8 @@ import axios from 'axios'
 export const OnlineCompiler = () => {
   const [code, setCode] = useState('// Type your code here')
   const [output, setOutput] = useState('')
+  const [score, setScore] = useState('')
+  
   const [language, setLanguage] = useState('cpp')
   const handleSubmit =async() =>{
     // console.log(code)
@@ -13,13 +15,18 @@ export const OnlineCompiler = () => {
     try{
 
       const {data} = await axios.post('http://localhost:8000/run', payload)
-      setOutput(data.output)
-      console.log(output);
+      setOutput(data.job.Output)
+      setScore(data.job.Score);
+      console.log(data);
     }catch(
-      error
+      {response}
     ){
-      console.log(error.response);
-      setOutput(error.response.data['error'])
+      if(response){
+        setOutput(response.success.json());
+      }
+      else{
+        setOutput("error connecting server")
+      }
     }
     
   }
@@ -45,6 +52,7 @@ export const OnlineCompiler = () => {
       }}></textarea>
       <button onClick={handleSubmit}>Submit</button>
       <p>{output}</p>
+      <p>{score}</p>
     </div>
   )
 }
