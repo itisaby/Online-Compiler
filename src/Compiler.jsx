@@ -14,7 +14,7 @@ export const OnlineCompiler = () => {
     }
     try{
 
-      const {data} = await axios.post('http://localhost:8000/run', payload)
+      const {data} = await axios.post('https://multiusercompiler.herokuapp.com:8000/run', payload)
       setOutput(data.job.Output)
       setScore(data.job.Score);
       console.log(data);
