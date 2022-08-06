@@ -14,7 +14,7 @@ const { score } = require('./computeScore')
 const Job = require('./models/job')
 const password = process.env.PASSWORD;
 mongoose.connect(
-    `mongodb+srv://node-rest:${password}@cluster1.fstlx.mongodb.net/myDatabase?retryWrites=true&w=majority`, 
+    `mongodb+srv://node-rest:noderest@cluster1.fstlx.mongodb.net/myDatabase?retryWrites=true&w=majority`, 
     {
       useNewUrlParser: true,
       useUnifiedTopology: true

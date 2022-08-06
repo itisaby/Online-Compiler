@@ -3,7 +3,7 @@ import axios from 'axios'
 export const OnlineCompiler = () => {
   const [code, setCode] = useState('// Type your code here')
   const [output, setOutput] = useState('')
-  const [score, setScore] = useState('')
+  const [score, setScore] = useState('0')
   
   const [language, setLanguage] = useState('cpp')
   const handleSubmit =async() =>{
@@ -51,8 +51,8 @@ export const OnlineCompiler = () => {
         setCode(e.target.value)
       }}></textarea>
       <button onClick={handleSubmit}>Submit</button>
-      <p>{output}</p>
-      <p>{score}</p>
+      <p>Output: {output}</p>
+      <p>Score: {score}</p>
     </div>
   )
 }
